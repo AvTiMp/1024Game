@@ -1,0 +1,125 @@
+body{
+    width: 100%;
+    height: 100%;
+}
+
+.page{
+    width: 600px;
+    height: 650px;
+    box-sizing: border-box;
+    margin:0 auto;
+    padding-top:50px;
+    position: relative;
+}
+
+.text{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 50px;
+    box-sizing: border-box;
+    margin: 0;
+}
+.title{
+    font-size: 1.5em;
+}
+.point{
+    font-size: 1em;
+}
+
+.gameContainer{
+    margin: 0 auto;
+    display: grid;
+    width: 500px;
+    height: 500px;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 25% 25%;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: #bbada0;
+    box-shadow: #776F67 10px 10px 10px;
+}
+
+.gameCell{
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    background-color: #ccc0b3;
+    border-radius: 10px;
+    margin: 12.5px;
+    font-weight: bold;
+    font-size: 3em;
+    line-height: 100px;
+    text-align: center;
+    color: white;
+    /* display: grid; */
+}
+
+.num2{
+    background-color: #EDE5DE;
+    color: #776F67;
+}
+.num4{
+    background-color: #EAE0C9;
+    color: #776F67;
+}
+.num8{
+    background-color:#E8B281;
+}
+.num16{
+    background-color: #E99A6D;
+}
+.num32{
+    background-color: #E78166;
+}
+.num64{
+    background-color: #E95E5E;
+}
+.num128{
+    background-color: #FFE66F;
+}
+
+.num256{
+    background-color: #FFE153;
+}
+
+.num512{
+    background-color: #FFDC35;
+}
+
+.num1024{
+    background-color: #FFD306;
+    font-size: 2.8em;
+}
+
+.mask{
+    background-color: black;
+    opacity:0.5;
+    width: 500px;
+    height: 500px;
+    margin:0 auto;
+    bottom: 0;
+    left: 50px;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.flex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn{
+    border-radius: 5px;
+    border: #776F67 1px solid;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    margin: 0 auto;
+}
+
+.btn:hover{
+    border: #bbada0 1px solid;
+}
