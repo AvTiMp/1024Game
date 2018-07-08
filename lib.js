@@ -2,7 +2,7 @@
  * @Author: BlingBling 
  * @Date: 2018-07-07 17:33:32 
  * @Last Modified by: BlingBling
- * @Last Modified time: 2018-07-08 00:02:36
+ * @Last Modified time: 2018-07-09 00:21:33
  */
 
 var cell = function (id) {
@@ -42,7 +42,10 @@ var newGame = function () {
     }
     // 两格想乘
     this.cellPlus = function (cell1, cell2) {
+        console.log(cell1);
+        console.log(cell2);
         if(cell1.num == cell2.num){
+            //将cell1 乘到cell2
             var cellIndex = this.onList.indexOf(cell1.id);
             this.onList.splice(cellIndex,1);
             this.emptyList.push(cell1.id);
@@ -78,6 +81,43 @@ var newGame = function () {
         this.selectCell();
         if(temp > 0.5 && this.emptyList.length > 0){
             this.selectCell();
+        }
+    }
+    //按键事件
+    this.keyDown = function (event) {
+        switch(event){
+            case "L":this.keyLeftCal();this.chooseCell();break;
+        }
+    }
+    //按左键计算
+    this.keyLeftCal = function () {
+        //向左计算每一格
+        for(let i=0;i<4;i++){
+            for(let j=3;j >= 1;j--){
+                var temp1 = i * 4 + j;
+                var temp2 = i * 4 + j -1;
+                this.cellPlus(this.board[temp1],this.board[temp2]);
+            }
+            //检查中间是否留空
+            for(let m = 0;m < 4;m++){
+                var temp = i * 4 + m;
+                if(this.board[temp].num == 0 && (temp+1)%4 != 0){
+                    //右边左移一位
+                    var temp1 = temp + 1;
+                    var cell1 = this.board[temp];
+                    var cell2 = this.board[temp1];
+                    //互换num
+                    cell1.num = cell2.num;
+                    cell2.num = 0;
+                    //处理emptylist，onlist
+                    this.emptyList.push(cell2.id);
+                    this.onList.push(cell1.id);
+                    var cell2Index = this.onList.indexOf(cell2.id);
+                    this.onList.splice(cell2Index,1);
+                    var cell1Index = this.emptyList.indexOf(cell1.id);
+                    this.emptyList.splice(cell1Index,1);
+                }
+            }
         }
     }
 
