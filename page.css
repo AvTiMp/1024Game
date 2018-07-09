@@ -103,6 +103,9 @@ body{
     border-radius: 10px;
 }
 
+.maskText{
+    color:white;
+}
 .flex{
     display: flex;
     flex-direction: column;

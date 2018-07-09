@@ -11,7 +11,7 @@
 <body>
     <section class="page">
         <p class="text title">welcome to 1024 GAME</p>
-        <p class="text point"><span>SCORE:0 point</span></p>
+        <p class="text point"><span>SCORE:<span id="score">0</span> point</span></p>
         <div class="gameContainer">
             <!-- line1 -->
             <div id="0" class="gameCell"></div>
@@ -35,7 +35,10 @@
             <div id="15" class="gameCell"></div>
         </div>
         <div id="mask" class="mask flex">
+                <p id="gameOverText" class="maskText display_none">GAME OVER!</p>
             <button id="startBtn" class="btn"> NEW GAME</button>
+            
+            <!-- <button id="gameOverBtn" class="btn display_none"> RESTART GAME</button> -->
         </div>
     </section>
     
