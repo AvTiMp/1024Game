@@ -1,8 +1,8 @@
 /*
  * @Author: BlingBling 
  * @Date: 2018-07-07 17:33:32 
- * @Last Modified by: BlingBling
- * @Last Modified time: 2018-07-09 16:01:00
+ * @Last Modified by: AvTiMp
+ * @Last Modified time: 2019-05
  */
 
 var cell = function (id) {
@@ -24,6 +24,7 @@ cell.prototype = {
 var newGame = function () {
     this.score = 0;
     this.gameEnd = false;
+    this.eleList = [];
     //块元素
     this.board = new Array();
     //已使用元素
@@ -33,6 +34,7 @@ var newGame = function () {
     this.gameInit = function () {
         this.score = 0;
         this.gameEnd = false;
+        this.eleList = eleList;
         this.board = new Array();
         for (let i = 0; i < 16; i++) {
             this.board.push(new cell(i));
@@ -43,8 +45,12 @@ var newGame = function () {
     // 两格想加
     this.cellPlus = function (cell1, cell2) {
         if(cell1.num == cell2.num){
-            cell2.num += cell1.num;
-            this.score += cell2.num;
+			if (cell1.num === 0) {
+				return 
+			}
+			var index = this.getClassNum(cell1.num)
+            cell2.num = this.eleList[index+1];
+            this.score += Math.pow(2, index+1);
             cell1.clean();
             return true;
         }else{
@@ -55,11 +61,21 @@ var newGame = function () {
     this.randomNum = function () {
         var temp = Math.random();
         if( temp < 0.5){
-            return 2;
+            return this.eleList[0];
         }else{
-            return 4;
+            return this.eleList[1];
         }
     }
+	
+	this.getClassNum = function(num) {
+		for (var i=0; i<this.eleList.length;i++) {
+			if (this.eleList[i] == num) {
+				return i
+			}
+		}
+		return -1
+	}
+	
     //随机选择1-2个空格子
     this.selectCell = function () {
         var temp = parseInt(Math.random() * this.emptyList.size);
@@ -104,9 +120,9 @@ var newGame = function () {
         this.leftSide();
         //向左计算每一格
         for(let i=0;i<4;i++){
-            for(let j=3;j >= 1;j--){
+            for(let j=0;j <3;j++){
                 var temp1 = i * 4 + j;
-                var temp2 = i * 4 + j -1;
+                var temp2 = i * 4 + j + 1;
                 this.cellPlus(this.board[temp1],this.board[temp2]);
             }
         }
@@ -119,12 +135,13 @@ var newGame = function () {
         this.rightSide();
         //向右计算每一格
         for(let i=0;i<4;i++){
-            for(let j=0;j <3;j++){
+            for(let j=3;j >0;j--){
                 var temp1 = i * 4 + j;
-                var temp2 = i * 4 + j +1;
+                var temp2 = i * 4 + j - 1;
                 this.cellPlus(this.board[temp1],this.board[temp2]);
             }
         }
+		
         this.rightSide();
         this.resetList();
     }
@@ -134,9 +151,9 @@ var newGame = function () {
         this.upSide();
         //向上计算每一格
         for(let i=0;i<4;i++){
-            for(let j=3;j >=1;j--){
+            for(let j=0;j <3;j++){
                 var temp1 = i + 4 * j;
-                var temp2 = i + 4 * (j -1);
+                var temp2 = i + 4 * (j +1);
                 this.cellPlus(this.board[temp1],this.board[temp2]);
             }
         }
@@ -149,9 +166,10 @@ var newGame = function () {
         this.downSide();
         //向下计算每一格
         for(let i=0;i<4;i++){
-            for(let j=0;j<3;j++){
+            for(let j=3;j >0;j--){
                 var temp1 = i + 4 * j;
-                var temp2 = i + 4 * (j +1);
+                var temp2 = i + 4 * (j -1);
+                console.log(1111,temp1, temp2)
                 this.cellPlus(this.board[temp1],this.board[temp2]);
             }
         }
@@ -183,7 +201,7 @@ var newGame = function () {
             var val = new Array();
             for(var m=3;m>-1;m--){
                 var num = this.board[i*4+m].num;
-                if(num != 0){
+                if(num !== 0){
                     val.push(this.board[i*4+m].num);
                 }
             }
@@ -192,7 +210,6 @@ var newGame = function () {
             for(var k=3;k>-1;k--){
                 if (z < len) {
                     this.board[i * 4 + k].num = val[z];
-                    console.log(val[z]);
                 } else {
                     this.board[i*4+k].num = 0;
                 }
@@ -266,8 +283,11 @@ var newGame = function () {
 
 }
 
+function sleep(d){
+  for(var t = Date.now();Date.now() - t <= d;);
+}
 
-var game = new newGame();
+
 
 
 

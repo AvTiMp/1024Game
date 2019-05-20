@@ -1,15 +1,47 @@
 /*
  * @Author: BlingBling 
- * @Date: 2018-07-07 17:31:40 
- * @Last Modified by: BlingBling
- * @Last Modified time: 2018-07-09 16:04:13
- * GAME LOGIC
+ * @Date: 2018-07-07 17:33:32
+ * @Last Modified by: AvTiMp
+ * @Last Modified time: 2019-05
  */
 
-window.onload = function(){
+
+//eleList = ["",]
+game = new newGame();
+eleList = []
+window.onload = function() {
     //游戏初始化
-    console.log(game.gameInit());
-    //游戏逻辑
+    let backendUri = ""
+
+    // 获取eleList， 作为1024游戏每个方块的显示等级，如[2,4,8,16,32,64,128,256,512,1024]
+    $.getJSON("./config/config.json", function (data) {
+        if (data.eleList != undefined && data.eleList != "") {
+            eleList = data.eleList
+            game.eleList = eleList
+            console.log("使用本地配置的eleList");
+            init()
+        } else {
+            backendUri = data.backendUri
+            if (backendUri == undefined || backendUri == ""){
+                alert("invalid backend")
+            } else {
+                $.get(backendUri + "/elelist",function(data,status){
+                    //console.log("数据: " + data + "\n状态: " + status);
+                    eleList = JSON.parse(data).eleList
+                    game.eleList = eleList
+                    console.log("使用后端配置的eleList");
+                    init()
+                })
+            }
+        }
+    })
+
+};
+
+
+
+//游戏逻辑
+function init() {
     var startBtn = document.getElementById("startBtn");
     startBtn.addEventListener("click",function(){
         console.log("游戏开始");
@@ -27,7 +59,7 @@ window.onload = function(){
         document.onkeydown = function(e) {
             var keyNum=window.event ? e.keyCode :e.which;
             if(game.gameEnd){
-                
+
                 return;
             }
             switch (e.keyCode){
@@ -47,8 +79,8 @@ window.onload = function(){
             console.log("game over:"+game.gameEnd);
         }
     });
-    
-};
+}
+
 
 //重画格子
 function draw(){
@@ -57,9 +89,10 @@ function draw(){
         var id = cell.id;
         var num = cell.num;
         var cellHtml = document.getElementById(id);
-        if(num != 0){
-            cellHtml.className="gameCell num"+num;
-            cellHtml.innerText = num;
+        if(num !== 0){
+			var index = getClassNum(num)
+            cellHtml.className="gameCell num"+index;
+            cellHtml.innerText = eleList[index];
         }else{
             cellHtml.className="gameCell";
             cellHtml.innerText = "";
@@ -70,8 +103,14 @@ function draw(){
     score.innerHTML = game.score;
 }
 
-
-
+function getClassNum(num) {
+	for (var i=0; i<eleList.length;i++) {
+		if (eleList[i] == num) {
+			return i
+		}
+	}
+	return 1
+}
 
 
 
